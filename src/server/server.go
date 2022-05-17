@@ -116,7 +116,7 @@ type NetDelay struct {
 	Loss    float64 `json:"loss"`
 }
 
-func (s *services) StaticService(ctx context.Context, info *proto.StaticInfo) (*proto.ResponseStatus, error) {
+func (s *services) StaticService(_ context.Context, info *proto.StaticInfo) (*proto.ResponseStatus, error) {
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
 
 	if status == false {
@@ -143,7 +143,7 @@ func (s *services) StaticService(ctx context.Context, info *proto.StaticInfo) (*
 	return &proto.ResponseStatus{Status: 0}, nil
 }
 
-func (s *services) DynamicService(ctx context.Context, info *proto.DynamicInfo) (*proto.ResponseStatus, error) {
+func (s *services) DynamicService(_ context.Context, info *proto.DynamicInfo) (*proto.ResponseStatus, error) {
 	var loadInfo LoadInfo
 	var responseStatus int64 = 0
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
@@ -203,7 +203,7 @@ func (s *services) DynamicService(ctx context.Context, info *proto.DynamicInfo) 
 	return &proto.ResponseStatus{Status: responseStatus}, nil
 }
 
-func (s *services) NetDelayService(ctx context.Context, info *proto.NetDelayInfo) (*proto.ResponseStatus, error) {
+func (s *services) NetDelayService(_ context.Context, info *proto.NetDelayInfo) (*proto.ResponseStatus, error) {
 
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
 	//fmt.Println(info)
@@ -222,11 +222,15 @@ func (s *services) NetDelayService(ctx context.Context, info *proto.NetDelayInfo
 	return &proto.ResponseStatus{Status: 0}, nil
 }
 
-func (s *services) ReportService(ctx context.Context, info *proto.ClientReport) (*proto.ResponseStatus, error) {
+func (s *services) ReportService(_ context.Context, info *proto.ClientReport) (*proto.ResponseStatus, error) {
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
 
 	if status == false {
 		return &proto.ResponseStatus{Status: -1}, nil
+	}
+
+	if clientVerify.Report.BotApi == "" || clientVerify.Report.ChatId == "" {
+		return &proto.ResponseStatus{Status: -3}, nil
 	}
 
 	telegramReport(info.Msg)

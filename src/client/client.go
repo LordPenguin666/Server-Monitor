@@ -42,6 +42,7 @@ const (
 )
 
 var (
+	replyTime int
 	cpuExec, memExec, swapExec, diskExec,
 	cpuReported, memReported, swapReported, diskReported bool
 	cpuExecTime, memExecTime, swapExecTime, diskExecTime,
@@ -136,7 +137,7 @@ func disks() []*proto.DiskInfo {
 
 	for diskName := range i {
 		// 正则，分离出硬盘，去掉分区
-		diskN, err := regexp.MatchString("[a-zA-Z]:|hd[a-zA-Z]\\b|sd[a-zA-Z]\\b|vd[a-zA-Z]\\b|nvme[0-9]n[0-9]\\b|mmcblk[0-9]\\b", diskName)
+		diskN, err := regexp.MatchString("[a-zA-Z]:|hd[a-zA-Z]\\b|sd[a-zA-Z]\\b|vd[a-zA-Z]\\b|nvme\\dn\\d\\b|mmcblk\\d\\b", diskName)
 		checkErr(err)
 		if diskN == false {
 			continue
@@ -468,6 +469,9 @@ func reportToServer(msg string) {
 		if reply.Status == -1 {
 			log.Println(reply.Status)
 			log.Println("Token access denied.")
+		} else if reply.Status == -3 && replyTime == 0 {
+			log.Println("Please enter your bot config.")
+			replyTime++
 		}
 	}
 }
