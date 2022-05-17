@@ -28,7 +28,7 @@ import (
 	"time"
 )
 
-const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
+const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
 
 const (
 	// SecondsPerMinute 定义每分钟的秒数
@@ -324,7 +324,7 @@ func acqDynamic() {
 		proc := h.Procs
 		uptime := h.Uptime
 
-		//fmt.Printf("\nProcess: %v\nUpitme: %v\n\n", proc, uptime)
+		//fmt.Printf("\nProcess: %v\nUptime: %v\n\n", proc, uptime)
 
 		m, err := mem.VirtualMemory()
 		checkErr(err)
@@ -333,7 +333,7 @@ func acqDynamic() {
 		memUsed := m.Used
 		memUsage, err := strconv.ParseFloat(fmt.Sprintf("%.0f", float64(memUsed)/float64(memTotal)*100), 64)
 		checkErr(err)
-		//fmt.Printf("Memory\nTotal: %v\nUsed: %v\nPrecent: %.2f %% \n\n", memTotal, memUsed, memPercent)
+		//fmt.Printf("Memory\nTotal: %v\nUsed: %v\nPresent: %.2f %% \n\n", memTotal, memUsed, memPercent)
 
 		// Swap
 		s, err := mem.SwapMemory()
@@ -348,7 +348,7 @@ func acqDynamic() {
 			checkErr(err)
 		}
 
-		//fmt.Printf("Swap\nTotal: %v\nUsed: %v\nPrecent: %.2f %% \n\n", swapTotal, swapUsed, swapPercent)
+		//fmt.Printf("Swap\nTotal: %v\nUsed: %v\nPresent: %.2f %% \n\n", swapTotal, swapUsed, swapPercent)
 
 		// 硬盘使用率(根分区)
 		u, err := disk.Usage("/")
