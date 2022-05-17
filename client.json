@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "token": "111",
+  "server" : "localhost:9000",
+  "Address": {
+    "CT": "14.147.5.141",
+    "CU": "27.39.31.1",
+    "CM": "111.24.5.178"
+  },
+  "report": {
+    "CPU": 0,
+    "Mem": 0,
+    "Swap": 0,
+    "Disk": 0,
+    "cpuReportTime": 30,
+    "memReportTime": 90,
+    "swapReportTime": 120,
+    "diskReportTime": 150
+  }
+}

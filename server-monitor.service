@@ -1,0 +1,14 @@
+[Unit]
+Description=Server Monitor for server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Server-Monitor
+ExecStart=/root/Server-Monitor/server
+Restart=on-abnormal
+RestartSec=5s
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

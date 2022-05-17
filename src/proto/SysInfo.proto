@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package sysInfo;
+
+option go_package = "Server-Monitor/proto";
+
+message StaticInfo {
+  uint64 cpuCore = 1;
+  string cpuName = 2;
+  string os = 3;
+  string platform = 4;
+  string kernel = 5;
+  string arch = 6;
+  string country = 7;
+  string province = 8;
+  string city = 9;
+  string isp = 10;
+  Verify verify = 1000;
+  int64 ts = 10001;
+}
+
+message DynamicInfo {
+  uint64 processes = 1;
+  uint64 uptime = 2;
+  uint64 memTotal = 3;
+  uint64 memUsed = 4;
+  uint64 swapTotal = 5;
+  uint64 swapUsed = 6;
+  uint64 diskTotal = 7;
+  uint64 diskUsed = 8;
+  double cpuUsage = 9;
+  double memUsage = 10;
+  double swapUsage = 11;
+  double diskUsage = 12;
+  Load load = 100;
+  repeated DiskInfo diskInfo = 101;
+  repeated NetSpeed netSpeed = 102;
+  Verify verify = 1000;
+  int64 ts = 10001;
+}
+
+message NetDelayInfo {
+  NetDelay CT = 1;
+  NetDelay CU = 2;
+  NetDelay CM = 3;
+  Verify verify = 1000;
+  int64 ts = 10001;
+}
+
+message ClientReport {
+  string msg = 1;
+  Verify verify = 1000;
+  int64 ts = 10001;
+}
+
+message ResponseStatus {
+  int64 status = 1;
+}
+
+message DiskInfo {
+  string name = 1;
+  uint64 read = 2;
+  uint64 write = 3;
+}
+
+message NetSpeed {
+  string name = 1;
+  uint64 In = 2;
+  uint64 out = 3;
+}
+
+message Load {
+  double load1 = 1;
+  double load5 = 2;
+  double load15 = 3;
+
+}
+
+message NetDelay {
+  uint64 average = 1;
+  double loss = 2;
+}
+
+message Verify {
+  uint64 id = 1;
+  string token = 2;
+}
+
+service MonitorService {
+  rpc StaticService (StaticInfo) returns (ResponseStatus);
+  rpc DynamicService (DynamicInfo) returns (ResponseStatus);
+  rpc NetDelayService (NetDelayInfo) returns (ResponseStatus);
+  rpc reportService (ClientReport) returns (ResponseStatus);
+}

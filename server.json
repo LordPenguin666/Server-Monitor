@@ -1,0 +1,26 @@
+{
+  "http_port": 8000,
+  "grpc_port": 9000,
+  "report": {
+    "report_time": 30,
+    "bot_api": "",
+    "chat_id": ""
+  },
+  "servers": [
+    {
+      "id": 1,
+      "token": "111",
+      "name": "第一台服务器"
+    },
+    {
+      "id": 2,
+      "token": "222",
+      "name": "第二台服务器"
+    },
+    {
+      "id": 3,
+      "token": "333",
+      "name": "第三台服务器"
+    }
+  ]
+}
