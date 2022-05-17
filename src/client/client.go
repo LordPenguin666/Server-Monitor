@@ -296,7 +296,7 @@ func acqStatic() {
 	if reply != nil {
 		switch reply.Status {
 		case 0:
-			log.Println("Connected to server.")
+			log.Fatal("Token access denied.")
 		case -1:
 			log.Println("Token access denied.")
 		}
@@ -397,7 +397,7 @@ func acqDynamic() {
 		if reply != nil {
 			switch reply.Status {
 			case -1:
-				log.Println("Token access denied.")
+				log.Fatal("Token access denied.")
 			case -2:
 				log.Println("Try to reconnect to the server.")
 				go acqStatic()
@@ -440,7 +440,7 @@ func acqNetDelay() {
 		if reply != nil {
 			if reply.Status == -1 {
 				log.Println(reply.Status)
-				log.Println("Token access denied.")
+				log.Fatal("Token access denied.")
 			}
 		}
 	}
@@ -466,12 +466,17 @@ func reportToServer(msg string) {
 	}
 
 	if reply != nil {
-		if reply.Status == -1 {
+		switch reply.Status {
+		case 0:
+			replyTime = 0
+		case -1:
 			log.Println(reply.Status)
-			log.Println("Token access denied.")
-		} else if reply.Status == -3 && replyTime == 0 {
-			log.Println("Please enter your bot config.")
-			replyTime++
+			log.Fatal("Token access denied.")
+		case -3:
+			if replyTime == 0 {
+				log.Println("Please enter your bot config.")
+				replyTime++
+			}
 		}
 	}
 }
