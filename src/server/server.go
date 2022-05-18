@@ -117,10 +117,11 @@ type NetDelay struct {
 }
 
 func (s *services) StaticService(_ context.Context, info *proto.StaticInfo) (*proto.ResponseStatus, error) {
+	var responseStatus int64
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
-
 	if status == false {
-		return &proto.ResponseStatus{Status: -1}, nil
+		responseStatus = -1
+		return &proto.ResponseStatus{Status: responseStatus}, nil
 	}
 
 	staticInfo := StaticData{
@@ -140,7 +141,7 @@ func (s *services) StaticService(_ context.Context, info *proto.StaticInfo) (*pr
 
 	infoData[info.Verify.Id-1].StaticData = staticInfo
 	log.Printf("Client connect id: %v.", info.Verify.Id)
-	return &proto.ResponseStatus{Status: 0}, nil
+	return &proto.ResponseStatus{Status: responseStatus}, nil
 }
 
 func (s *services) DynamicService(_ context.Context, info *proto.DynamicInfo) (*proto.ResponseStatus, error) {
@@ -204,9 +205,8 @@ func (s *services) DynamicService(_ context.Context, info *proto.DynamicInfo) (*
 }
 
 func (s *services) NetDelayService(_ context.Context, info *proto.NetDelayInfo) (*proto.ResponseStatus, error) {
-
 	status := verifyClient(info.Verify.Id, info.Verify.Token, info.Ts)
-	//fmt.Println(info)
+
 	if status == false {
 		return &proto.ResponseStatus{Status: -1}, nil
 	}

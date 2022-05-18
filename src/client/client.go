@@ -296,9 +296,9 @@ func acqStatic() {
 	if reply != nil {
 		switch reply.Status {
 		case 0:
-			log.Fatal("Token access denied.")
+			log.Println("Connected to server.")
 		case -1:
-			log.Println("Token access denied.")
+			log.Fatal("Token access denied.")
 		}
 	}
 }
@@ -591,7 +591,6 @@ func check(cpu, mem, swap, disk float64, ts int64) {
 			}
 		}
 	}
-	log.Println(cpu)
 }
 
 func errReportMessage(model string, execPercent int, nowPercent float64, reportTime, execTime int64) string {
