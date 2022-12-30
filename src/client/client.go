@@ -4,6 +4,7 @@ import (
 	"Server-Monitor/src/proto"
 	"context"
 	"crypto/md5"
+	"crypto/tls"
 	"encoding/hex"
 	"encoding/json"
 	"flag"
@@ -678,9 +679,18 @@ func main() {
 	address = append(address, verifyInfo.Address.CU)
 	address = append(address, verifyInfo.Address.CM)
 
+	//tlsConfig := &tls.Config{
+	//	InsecureSkipVerify: true,
+	//}
+	//
+	//c := grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig))
+	//
+	//conn, err = grpc.Dial(serverAddr, c)
+
 	conn, err = transgrpc.DialInsecure(
 		context.Background(),
 		transgrpc.WithEndpoint(serverAddr),
+		transgrpc.WithTLSConfig(&tls.Config{InsecureSkipVerify: true}),
 		transgrpc.WithMiddleware(
 			recovery.Recovery(),
 		),
