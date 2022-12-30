@@ -1,7 +1,7 @@
 {
   "id": 1,
   "token": "111",
-  "server" : "localhost:9000",
+  "server" : "grpc.ov2.xyz:443",
   "Address": {
     "CT": "14.147.5.141",
     "CU": "27.39.31.1",

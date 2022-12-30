@@ -19,8 +19,8 @@ import (
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/net"
 	"google.golang.org/grpc"
-	"io/ioutil"
 	"log"
+	"os"
 	"regexp"
 	"sort"
 	"strconv"
@@ -257,7 +257,7 @@ func acqStatic() {
 	// 获取主机信息
 	h, err := host.Info()
 	checkErr(err)
-	os := h.OS
+	osSys := h.OS
 	platform := h.Platform
 	kernel := h.KernelVersion
 	arch := h.KernelArch
@@ -277,7 +277,7 @@ func acqStatic() {
 	reply, err := grpcClient.StaticService(context.Background(), &proto.StaticInfo{
 		CpuCore:  uint64(cpuCores),
 		CpuName:  cpuName,
-		Os:       os,
+		Os:       osSys,
 		Platform: platform,
 		Kernel:   kernel,
 		Arch:     arch,
@@ -666,7 +666,7 @@ func init() {
 
 func main() {
 	getLocation()
-	jsonFile, err := ioutil.ReadFile(fileName)
+	jsonFile, err := os.ReadFile(fileName)
 	checkErr(err)
 	err = json.Unmarshal(jsonFile, verifyInfo)
 	checkErr(err)

@@ -14,4 +14,4 @@ wins:
 	 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o server.exe src/client/server.go
 
 clean:
-	rm src/proto/*.go
+	rm server server.exe client client.exe
